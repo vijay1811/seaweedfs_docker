@@ -1,0 +1,157 @@
+goroutine 276 [running]:
+runtime/pprof.writeGoroutineStacks({0x2a392c0, 0xc00050e0e0})
+	/usr/local/go/src/runtime/pprof/pprof.go:692 +0x70
+runtime/pprof.writeGoroutine({0x2a392c0?, 0xc00050e0e0?}, 0x0?)
+	/usr/local/go/src/runtime/pprof/pprof.go:681 +0x2b
+runtime/pprof.(*Profile).WriteTo(0x22131c0?, {0x2a392c0?, 0xc00050e0e0?}, 0xc?)
+	/usr/local/go/src/runtime/pprof/pprof.go:330 +0x14b
+net/http/pprof.handler.ServeHTTP({0xc00020e8e1, 0x9}, {0x2a49ef8, 0xc00050e0e0}, 0x736f686c61636f6c?)
+	/usr/local/go/src/net/http/pprof/pprof.go:253 +0x4a5
+net/http/pprof.Index({0x2a49ef8?, 0xc00050e0e0}, 0xc0003d6900)
+	/usr/local/go/src/net/http/pprof/pprof.go:371 +0x13e
+net/http.HandlerFunc.ServeHTTP(0xc000811af0?, {0x2a49ef8?, 0xc00050e0e0?}, 0x0?)
+	/usr/local/go/src/net/http/server.go:2109 +0x2f
+net/http.(*ServeMux).ServeHTTP(0xc00020e8eb?, {0x2a49ef8, 0xc00050e0e0}, 0xc0003d6900)
+	/usr/local/go/src/net/http/server.go:2487 +0x149
+net/http.serverHandler.ServeHTTP({0xc0003f6e10?}, {0x2a49ef8, 0xc00050e0e0}, 0xc0003d6900)
+	/usr/local/go/src/net/http/server.go:2947 +0x30c
+net/http.(*conn).serve(0xc0003c6000, {0x2a4bde0, 0xc000531980})
+	/usr/local/go/src/net/http/server.go:1991 +0x607
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3102 +0x4db
+
+goroutine 1 [sleep]:
+time.Sleep(0x1a13b8600)
+	/usr/local/go/src/runtime/time.go:195 +0x135
+github.com/seaweedfs/seaweedfs/weed/server.(*FilerServer).checkWithMaster(0xc0003d2ab0)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/server/filer_server.go:205 +0x14d
+github.com/seaweedfs/seaweedfs/weed/server.NewFilerServer(0xc0008ad200, 0xc0008ad200, 0xc0008caea0)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/server/filer_server.go:128 +0x5ad
+github.com/seaweedfs/seaweedfs/weed/command.(*FilerOptions).startFiler(0x3c653e0)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/command/filer.go:228 +0x351
+github.com/seaweedfs/seaweedfs/weed/command.runFiler(0x3c47f58?, {0xc000134030?, 0x4?, 0x4?})
+	/go/src/github.com/seaweedfs/seaweedfs/weed/command/filer.go:204 +0x431
+main.main()
+	/go/src/github.com/seaweedfs/seaweedfs/weed/weed.go:82 +0x3a3
+
+goroutine 18 [chan receive]:
+github.com/seaweedfs/seaweedfs/weed/glog.(*loggingT).flushDaemon(0x0?)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/glog/glog.go:884 +0x6a
+created by github.com/seaweedfs/seaweedfs/weed/glog.init.0
+	/go/src/github.com/seaweedfs/seaweedfs/weed/glog/glog.go:409 +0x1bf
+
+goroutine 59 [syscall, 2 minutes]:
+os/signal.signal_recv()
+	/usr/local/go/src/runtime/sigqueue.go:152 +0x2f
+os/signal.loop()
+	/usr/local/go/src/os/signal/signal_unix.go:23 +0x19
+created by os/signal.Notify.func1.1
+	/usr/local/go/src/os/signal/signal.go:151 +0x2a
+
+goroutine 60 [chan receive, 2 minutes]:
+github.com/seaweedfs/seaweedfs/weed/util/grace.init.0.func1()
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/grace/signal_handling.go:38 +0x4f
+created by github.com/seaweedfs/seaweedfs/weed/util/grace.init.0
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/grace/signal_handling.go:37 +0x113
+
+goroutine 6 [select]:
+go.opencensus.io/stats/view.(*worker).start(0xc000186180)
+	/go/pkg/mod/go.opencensus.io@v0.24.0/stats/view/worker.go:292 +0xad
+created by go.opencensus.io/stats/view.init.0
+	/go/pkg/mod/go.opencensus.io@v0.24.0/stats/view/worker.go:34 +0x8d
+
+goroutine 8 [select, 2 minutes]:
+github.com/seaweedfs/seaweedfs/weed/stats.(*ServerStats).Start(0xc000478000)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/stats/stats.go:92 +0x205
+created by github.com/seaweedfs/seaweedfs/weed/server.init.0
+	/go/src/github.com/seaweedfs/seaweedfs/weed/server/common.go:36 +0x79
+
+goroutine 64 [IO wait]:
+internal/poll.runtime_pollWait(0x7fd99bbc6e30, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:305 +0x89
+internal/poll.(*pollDesc).wait(0xc00052e500?, 0x6?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x32
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc00052e500)
+	/usr/local/go/src/internal/poll/fd_unix.go:614 +0x234
+net.(*netFD).accept(0xc00052e500)
+	/usr/local/go/src/net/fd_unix.go:172 +0x35
+net.(*TCPListener).accept(0xc000010210)
+	/usr/local/go/src/net/tcpsock_posix.go:142 +0x28
+net.(*TCPListener).Accept(0xc000010210)
+	/usr/local/go/src/net/tcpsock.go:288 +0x3d
+net/http.(*Server).Serve(0xc0003ba780, {0x2a49ce8, 0xc000010210})
+	/usr/local/go/src/net/http/server.go:3070 +0x385
+net/http.(*Server).ListenAndServe(0xc0003ba780)
+	/usr/local/go/src/net/http/server.go:2999 +0x7d
+net/http.ListenAndServe({0xc0008c40a8, 0x5}, {0x0?, 0x0})
+	/usr/local/go/src/net/http/server.go:3255 +0x96
+created by github.com/seaweedfs/seaweedfs/weed/command.runFiler
+	/go/src/github.com/seaweedfs/seaweedfs/weed/command/filer.go:161 +0xd6
+
+goroutine 65 [IO wait, 2 minutes]:
+internal/poll.runtime_pollWait(0x7fd99bbc6f20, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:305 +0x89
+internal/poll.(*pollDesc).wait(0xc00078af00?, 0x2?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x32
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc00078af00)
+	/usr/local/go/src/internal/poll/fd_unix.go:614 +0x234
+net.(*netFD).accept(0xc00078af00)
+	/usr/local/go/src/net/fd_unix.go:172 +0x35
+net.(*TCPListener).accept(0xc000480c48)
+	/usr/local/go/src/net/tcpsock_posix.go:142 +0x28
+net.(*TCPListener).Accept(0xc000480c48)
+	/usr/local/go/src/net/tcpsock.go:288 +0x3d
+net/http.(*Server).Serve(0xc00085c000, {0x2a49ce8, 0xc000480c48})
+	/usr/local/go/src/net/http/server.go:3070 +0x385
+net/http.(*Server).ListenAndServe(0xc00085c000)
+	/usr/local/go/src/net/http/server.go:2999 +0x7d
+net/http.ListenAndServe(...)
+	/usr/local/go/src/net/http/server.go:3255
+github.com/seaweedfs/seaweedfs/weed/stats.StartMetricsServer({0x7ffedbf8cf54, 0x7}, 0x246e)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/stats/metrics.go:290 +0x206
+created by github.com/seaweedfs/seaweedfs/weed/command.runFiler
+	/go/src/github.com/seaweedfs/seaweedfs/weed/command/filer.go:166 +0x15f
+
+goroutine 81 [chan receive, 2 minutes]:
+github.com/seaweedfs/seaweedfs/weed/util/log_buffer.(*LogBuffer).loopFlush(0xc000218100)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/log_buffer/log_buffer.go:142 +0x49
+created by github.com/seaweedfs/seaweedfs/weed/util/log_buffer.NewLogBuffer
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/log_buffer/log_buffer.go:54 +0x2ea
+
+goroutine 82 [sleep, 2 minutes]:
+time.Sleep(0xdf8475800)
+	/usr/local/go/src/runtime/time.go:195 +0x135
+github.com/seaweedfs/seaweedfs/weed/util/log_buffer.(*LogBuffer).loopInterval(0xc000218100)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/log_buffer/log_buffer.go:155 +0x45
+created by github.com/seaweedfs/seaweedfs/weed/util/log_buffer.NewLogBuffer
+	/go/src/github.com/seaweedfs/seaweedfs/weed/util/log_buffer/log_buffer.go:55 +0x32a
+
+goroutine 83 [sleep]:
+time.Sleep(0x42ef9ec0)
+	/usr/local/go/src/runtime/time.go:195 +0x135
+github.com/seaweedfs/seaweedfs/weed/filer.(*Filer).loopProcessingDeletion(0xc00088cbe0)
+	/go/src/github.com/seaweedfs/seaweedfs/weed/filer/filer_deletion.go:68 +0xac
+created by github.com/seaweedfs/seaweedfs/weed/filer.NewFiler
+	/go/src/github.com/seaweedfs/seaweedfs/weed/filer/filer.go:71 +0x74a
+
+goroutine 247 [IO wait]:
+internal/poll.runtime_pollWait(0x7fd99bbc6d40, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:305 +0x89
+internal/poll.(*pollDesc).wait(0xc0004ae700?, 0xc0003f6e21?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x32
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc0004ae700, {0xc0003f6e21, 0x1, 0x1})
+	/usr/local/go/src/internal/poll/fd_unix.go:167 +0x25a
+net.(*netFD).Read(0xc0004ae700, {0xc0003f6e21?, 0x0?, 0x0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x29
+net.(*conn).Read(0xc00012ea98, {0xc0003f6e21?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:183 +0x45
+net/http.(*connReader).backgroundRead(0xc0003f6e10)
+	/usr/local/go/src/net/http/server.go:678 +0x3f
+created by net/http.(*connReader).startBackgroundRead
+	/usr/local/go/src/net/http/server.go:674 +0xca

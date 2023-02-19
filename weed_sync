@@ -1,0 +1,1 @@
+weed filer.sync -a filergr0:8888 -b filergr20:8888 -a.debug -b.debug -a.path /grbuckets -b.path /grbuckets 

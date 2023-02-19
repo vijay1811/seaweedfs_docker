@@ -1,0 +1,210 @@
+version: '3.9'
+
+services:
+  seaweed20:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      # - 9333:9333
+      # - 19333:19333
+      # - 9324:9324
+      - 9080:8080
+      - 28080:18080
+    command: "server -master -dir=/bp2/data -ip=seaweed20 -ip.bind=0.0.0.0 -master.defaultReplication=001 -master.volumeSizeLimitMB=500 -master.peers=seaweed21:9333,seaweed22:9333 -master.dir=/bp2/data/master -volume -volume.max=0 -volume.port=8080 -volume.dir.idx=/bp2/data/volume -metricsPort=9324"
+    networks:
+      - cassandra
+    volumes:
+      - ./bp2/seaweed20/data:/bp2/data
+      - ./master.toml:/etc/seaweedfs/master.toml
+  seaweed21:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      # - 9533:9333
+      # - 19533:19333
+      # - 9524:9324
+      - 9280:8080
+      - 28280:18080
+    command: "server -master -dir=/bp2/data -ip=seaweed21 -ip.bind=0.0.0.0 -master.defaultReplication=001 -master.volumeSizeLimitMB=500 -master.peers=seaweed20:9333,seaweed22:9333 -master.dir=/bp2/data/master -volume -volume.max=0 -volume.port=8080 -volume.dir.idx=/bp2/data/volume -metricsPort=9324"
+    depends_on:
+      - seaweed20
+    networks:
+      - cassandra
+    volumes:
+      - ./bp2/seaweed21/data:/bp2/data
+      - ./master.toml:/etc/seaweedfs/master.toml
+  seaweed22:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      # - 9433:9333
+      # - 19433:19333
+      # - 9424:9324
+      - 9180:8080
+      - 28180:18080
+    command: "server -master -dir=/bp2/data -ip=seaweed22 -ip.bind=0.0.0.0 -master.defaultReplication=001 -master.volumeSizeLimitMB=500 -master.peers=seaweed21:9333,seaweed20:9333 -master.dir=/bp2/data/master -volume -volume.max=0 -volume.port=8080 -volume.dir.idx=/bp2/data/volume  -metricsPort=9324"
+    depends_on:
+      - seaweed20
+    networks:
+      - cassandra
+    volumes:
+      - ./bp2/seaweed22/data:/bp2/data
+      - ./master.toml:/etc/seaweedfs/master.toml
+  filergr20:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 9889:8888
+      - 28889:18888
+      - 9334:8333
+      # - 9326:9326
+    command: 'filer -master="seaweed20:9333,seaweed21:9333,seaweed22:9333" -filerGroup=gr -ip.bind=0.0.0.0 -debug -s3 -metricsPort=9326'
+    networks:
+      - cassandra
+    depends_on:
+      - seaweed20
+      - seaweed21
+      - seaweed22
+    volumes:
+      - ./bp2/seaweed20/data/filergr:/bp2/data
+      - ./filer.gr.toml:/etc/seaweedfs/filer.toml
+  filergr21:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 9890:8888
+      - 28890:18888
+      - 9335:8333
+      # - 9326:9326
+    command: 'filer -master="seaweed20:9333,seaweed21:9333,seaweed22:9333" -ip.bind=0.0.0.0 -filerGroup=gr -debug -s3 -metricsPort=9326'
+    networks:
+      - cassandra
+    volumes:
+      - ./bp2/seaweed21/data/filergr:/bp2/data
+      - ./filer.gr.toml:/etc/seaweedfs/filer.toml
+    depends_on:
+      - seaweed20
+      - seaweed21
+      - seaweed22
+  filergr22:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 9891:8888
+      - 28891:18888
+      - 9336:8333
+    command: 'filer -master="seaweed20:9333,seaweed21:9333,seaweed22:9333" -ip.bind=0.0.0.0 -filerGroup=gr -debug -s3 -metricsPort=9326'
+    depends_on:
+      - seaweed21
+      - seaweed20
+      - seaweed22
+    networks:
+      - cassandra
+    volumes:
+      - ./bp2/seaweed22/data/filergr:/bp2/data
+      - ./filer.gr.toml:/etc/seaweedfs/filer.toml
+  filerlocal20:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 10888:8888
+      - 28888:18888
+      # - 9326:9326
+      - 9333:8333
+      # - 9327:9327
+      # - 9326:9326
+    command: 'filer -master=seaweed20:9333,seaweed21:9333,seaweed22:9333 -defaultStoreDir=/bp2/data -filerGroup=local -ip.bind=0.0.0.0 -s3 -metricsPort=9326'
+    networks:
+      - cassandra
+    depends_on:
+      - seaweed21
+      - seaweed20
+      - seaweed22
+    volumes:
+      - ./bp2/seaweed20/data/seaweed2:/bp2/data
+      - ./filer.local.toml:/etc/seaweedfs/filer.toml
+  filerlocal21:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 10088:8888
+      - 29088:18888
+      # - 9626:9326
+      - 9433:8333
+    command: 'filer -master=seaweed20:9333,seaweed21:9333,seaweed22:9333 -defaultStoreDir=/bp2/data -filerGroup=local -ip.bind=0.0.0.0 -s3 -metricsPort=9326'
+    networks:
+      - cassandra
+    depends_on:
+      - seaweed21
+      - seaweed22
+      - seaweed20
+    volumes:
+      - ./bp2/seaweed21/data/seaweed2:/bp2/data
+      - ./filer.local.toml:/etc/seaweedfs/filer.toml
+  filerlocal22:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 9988:8888
+      - 28988:18888
+      # - 9426:9326
+      - 9533:8333
+      # - 9427:9327
+    command: 'filer -master=seaweed20:9333,seaweed21:9333,seaweed22:9333 -defaultStoreDir=/bp2/data -filerGroup=local -ip.bind=0.0.0.0 -s3 -metricsPort=9326'
+    networks:
+      - cassandra
+    depends_on:
+      - seaweed21
+      - seaweed22 
+      - seaweed20
+    volumes:
+      - ./bp2/seaweed22/data/seaweed2:/bp2/data
+      - ./filer.local.toml:/etc/seaweedfs/filer.toml
+networks:
+  cassandra:
+    external: true
+ 
+# networks:
+#   cassandra:
+#     external: true
+# networks:
+#   cassadra1_cass0:
+#     external: true 
+#   seaweed0:
+#     driver: bridge
+  # volume:
+  #   image: chrislusf/seaweedfs # use a remote image
+  #   ports:
+  #     - 8080:8080
+  #     - 18080:18080
+  #     - 9325:9325
+  #   command: 'volume -mserver="master:9333" -ip.bind=0.0.0.0 -port=8080  -metricsPort=9325'
+  #   depends_on:
+  #     - master
+ 
+  # s3:
+  #   image: chrislusf/seaweedfs # use a remote image
+  #   ports:
+  #     - 8333:8333
+  #     - 9327:9327
+  #   command: 's3 -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327'
+  #   depends_on:
+  #     - master
+  #     - volume
+  #     - filer
+
+  # prometheus:
+  #   image: prom/prometheus:v2.21.0
+  #   ports:
+  #     - 9000:9090
+  #   volumes:
+  #     - ./prometheus:/etc/prometheus
+  #   command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+  #   depends_on:
+  #     - s3
+#   cassandra:
+#     image: docker.io/bitnami/cassandra:4.1
+#     ports:
+#       - '7000:7000'
+#       - '9042:9042'
+#     volumes:
+#       - 'cassandra_data:/bitnami'
+#     environment:
+#       - CASSANDRA_SEEDS=cassandra
+#       - CASSANDRA_PASSWORD_SEEDER=yes
+#       - CASSANDRA_PASSWORD=cassandra
+# volumes:
+#   cassandra_data:
+#     driver: local
+
